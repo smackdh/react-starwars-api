@@ -4,24 +4,21 @@ import MoviesList from "./components/MoviesList";
 import "./App.css";
 
 function App() {
-  const [movies, setMovies] = useState();
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  function fetchMoviesHandler() {
-    fetch("https://swapi.py4e.com/api/films/")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const cleanedMovies = data.results.map((movieData) => {
-          return {
-            id: movieData.episode_id,
-            title: movieData.title,
-            opening_crawl: movieData.opening_crawl,
-            release_date: movieData.release_date,
-          };
-        });
-        setMovies(cleanedMovies);
-      });
+  async function fetchMoviesHandler() {
+    const response = await fetch("https://swapi.py4e.com/api/films/");
+    const data = await response.json();
+    const cleanedMovies = data.results.map((movieData) => {
+      return {
+        id: movieData.episode_id,
+        title: movieData.title,
+        openingText: movieData.opening_crawl,
+        releaseDate: movieData.release_date,
+      };
+    });
+    setMovies(cleanedMovies);
   }
 
   return (
