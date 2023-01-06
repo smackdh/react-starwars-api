@@ -4,7 +4,7 @@ import MoviesList from "./components/MoviesList";
 import "./App.css";
 
 function App() {
-  const [movies, setmovies] = useState();
+  const [movies, setMovies] = useState();
 
   function fetchMoviesHandler() {
     fetch("https://swapi.py4e.com/api/films/")
@@ -12,14 +12,22 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        setmovies(data);
+        const cleanedMovies = data.results.map((movieData) => {
+          return {
+            id: movieData.episode_id,
+            title: movieData.title,
+            opening_crawl: movieData.opening_crawl,
+            release_date: movieData.release_date,
+          };
+        });
+        setMovies(cleanedMovies);
       });
   }
 
   return (
     <React.Fragment>
       <section>
-        <button>Fetch Movies</button>
+        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
         <MoviesList movies={movies} />
