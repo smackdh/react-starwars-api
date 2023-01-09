@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
+import AddMovie from "./components/AddMovie";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -39,6 +40,9 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
   // fetches the first time it loads. as dependencies are added but nothing inside them, it is not called again.
+  function addMovieHandler(movie) {
+    console.log(movie);
+  }
 
   let contents = <p>No movies yet!</p>;
 
@@ -56,6 +60,9 @@ function App() {
 
   return (
     <React.Fragment>
+      <section>
+        <AddMovie onAddMovie={addMovieHandler} />
+      </section>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
