@@ -24,25 +24,17 @@ function App() {
       const data = await response.json();
       console.log(data);
 
-      // make an array to hold the movies, as the data is now different.
-      // get each post from the object, and objects inside the object.
-      // push that data into my array, as an object(json)
-      // load the correct data
-
       const loadedMovies = [];
 
       for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          openingText: data[key].openingText,
+          releaseDate: data[key].releaseDate,
+        });
       }
-
-      const cleanedMovies = data.results.map((movieData) => {
-        return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date,
-        };
-      });
-      setMovies(cleanedMovies);
+      setMovies(loadedMovies);
     } catch (error) {
       setError(error.message);
     }
